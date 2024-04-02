@@ -8,6 +8,7 @@ public class UserMapper {
     public static UserDto mapToDto (UserEntity userEntity){
         UserDto userDto = UserDto.builder()
                 .username(userEntity.getUsername())
+                .password(userEntity.getPassword())
                 .email(userEntity.getEmail())
                 .phoneNumber(userEntity.getPhoneNumber())
                 .preferredNotificationChannel(userEntity.getPreferredNotificationChannel())
@@ -19,6 +20,7 @@ public class UserMapper {
     public static UserEntity mapToEntity(UserDto userDto){
         UserEntity userEntity = UserEntity.builder()
                 .username(userDto.getUsername())
+                .password(userDto.getPassword())
                 .email(userDto.getEmail())
                 .phoneNumber(userDto.getPhoneNumber())
                 .preferredNotificationChannel(userDto.getPreferredNotificationChannel())

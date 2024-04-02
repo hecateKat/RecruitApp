@@ -6,6 +6,7 @@ import com.kat.recruitapp.validators.password.OwaspPassword;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Builder
@@ -17,12 +18,10 @@ import java.util.UUID;
 @Table(name = UserEntity.TABLE_NAME)
 public class UserEntity {
 
-    public static final String SEQ_NAME = "user_id_seq";
     public static final String TABLE_NAME = "users";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = UserEntity.SEQ_NAME)
-    @SequenceGenerator(name = UserEntity.SEQ_NAME, sequenceName = UserEntity.SEQ_NAME, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID Id;
 
     private String username;
@@ -35,6 +34,19 @@ public class UserEntity {
     @OwaspEmail
     private String email;
 
+    @Enumerated(EnumType.STRING)
     private PreferredNotificationChannel preferredNotificationChannel;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(Id, that.Id) && Objects.equals(username, that.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, username);
+    }
 }
