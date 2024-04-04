@@ -5,7 +5,6 @@ import com.kat.recruitapp.dtos.UserDto;
 import com.kat.recruitapp.entities.BalanceEntity;
 import com.kat.recruitapp.entities.UserEntity;
 import com.kat.recruitapp.mappers.BalanceMapper;
-import com.kat.recruitapp.mappers.UserMapper;
 import com.kat.recruitapp.repositories.BalanceRepository;
 import com.kat.recruitapp.repositories.UserRepository;
 import com.kat.recruitapp.services.BalanceService;

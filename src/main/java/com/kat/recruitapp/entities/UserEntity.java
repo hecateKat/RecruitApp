@@ -14,15 +14,13 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "User")
-@Table(name = UserEntity.TABLE_NAME)
+@Entity
+@Table(name = "user_entity")
 public class UserEntity {
-
-    public static final String TABLE_NAME = "users";
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID Id;
+    private UUID id;
 
     private String username;
 
@@ -42,11 +40,11 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return Objects.equals(Id, that.Id) && Objects.equals(username, that.username);
+        return Objects.equals(id, that.id) && Objects.equals(username, that.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, username);
+        return Objects.hash(id, username);
     }
 }

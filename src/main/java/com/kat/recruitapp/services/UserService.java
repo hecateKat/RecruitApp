@@ -12,4 +12,6 @@ public interface UserService {
     UserDto save(UserDto user);
 
     void deleteUser(UUID id);
+//
+//    boolean checkUserExistByUsername(String username);
 }

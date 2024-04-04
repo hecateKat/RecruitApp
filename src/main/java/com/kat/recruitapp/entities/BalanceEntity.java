@@ -12,11 +12,9 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "Balance")
-@Table(name = BalanceEntity.TABLE_NAME)
+@Entity
+@Table(name = "balance_entity")
 public class BalanceEntity {
-
-    public static final String TABLE_NAME = "balance_values";
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,5 +26,6 @@ public class BalanceEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
+    @MapsId
     private UserEntity userEntity;
 }
