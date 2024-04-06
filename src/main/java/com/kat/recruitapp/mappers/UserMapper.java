@@ -18,16 +18,6 @@ public class UserMapper {
         return userDto;
     }
 
-    public static UserEntity mapToEntity(UserDto userDto){
-        UserEntity userEntity = UserEntity.builder()
-                .username(userDto.getUsername())
-                .email(userDto.getEmail())
-                .phoneNumber(userDto.getPhoneNumber())
-                .preferredNotificationChannel(PreferredNotificationChannel.valueOf(userDto.getPreferredNotificationChannel()))
-                .build();
-
-        return userEntity;
-    }
 
     public static UserEntity mapFromUserCredentialDto(UserCredentialsDto userCredentialsDto){
         UserEntity userEntity = UserEntity.builder()

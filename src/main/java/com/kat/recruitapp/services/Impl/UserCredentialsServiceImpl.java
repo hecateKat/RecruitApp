@@ -28,12 +28,6 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
     }
 
     @Override
-    public UserCredentialsDto register(UserCredentialsDto credentials) {
-        UserCredentials userCredentials = userCredentialsRepository.save(UserCredentialsMapper.mapToEntity(credentials, userRepository));
-        return UserCredentialsMapper.mapToDto(userCredentials, userRepository);
-    }
-
-    @Override
     public String getAuthenticatedCredentialUsername() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {

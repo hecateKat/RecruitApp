@@ -14,14 +14,4 @@ public class BalanceMapper {
 
         return balanceDto;
     }
-
-    public static BalanceEntity mapToEntity(BalanceDto balanceDto){
-        BalanceEntity balanceEntity = BalanceEntity.builder()
-                .id(balanceDto.getId())
-                .amount(balanceDto.getAmount())
-                .balanceId(balanceDto.getBalanceId())
-                .build();
-
-        return balanceEntity;
-    }
 }

@@ -6,7 +6,6 @@ import com.kat.recruitapp.entities.BalanceEntity;
 import com.kat.recruitapp.entities.UserEntity;
 import com.kat.recruitapp.enums.PromoCode;
 import com.kat.recruitapp.exceptions.ExistException;
-import com.kat.recruitapp.exceptions.NotFoundException;
 import com.kat.recruitapp.mappers.BalanceMapper;
 import com.kat.recruitapp.repositories.BalanceRepository;
 import com.kat.recruitapp.repositories.UserRepository;
@@ -41,27 +40,8 @@ public class BalanceServiceImpl implements BalanceService {
         Optional<UserEntity> userEntity = userRepository.getUserEntityByUsername(authenticatedUserUsername);
 
         validateBalanceForUser(userEntity.get());
-
-        BalanceEntity balanceEntity = BalanceEntity.builder()
-                .amount(mapPromotionCode(code.getCode()))
-                .balanceId(RandomString.make(10))
-                .userEntity(userEntity.get())
-                .build();
-
+        BalanceEntity balanceEntity = createBalance(code, userEntity);
         balanceRepository.save(balanceEntity);
-        return BalanceMapper.mapToDto(balanceEntity);
-    }
-
-    @Override
-    public BalanceDto getUserBalanceByUsername(String username) {
-        UserEntity userEntity = userRepository.getUserEntityByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
-        BalanceEntity balanceEntity = balanceRepository.getUserBalanceByUsername(userEntity.getUsername()).orElseThrow(() -> new NotFoundException("Balance not found"));
-        return BalanceMapper.mapToDto(balanceEntity);
-    }
-
-    @Override
-    public BalanceDto getUserBalanceByBalanceId(String balanceId) {
-        BalanceEntity balanceEntity = balanceRepository.getUserBalanceByBalanceId(balanceId).orElseThrow(() -> new NotFoundException("Balance not found"));
         return BalanceMapper.mapToDto(balanceEntity);
     }
 
@@ -81,5 +61,13 @@ public class BalanceServiceImpl implements BalanceService {
         );
 
         return bigDecimalValue.get(PromoCode.valueOf(code));
+    }
+
+    private BalanceEntity createBalance(PromoCodeDto code, Optional<UserEntity> userEntity){
+        return BalanceEntity.builder()
+                .amount(mapPromotionCode(code.getCode()))
+                .balanceId(RandomString.make(10))
+                .userEntity(userEntity.get())
+                .build();
     }
 }

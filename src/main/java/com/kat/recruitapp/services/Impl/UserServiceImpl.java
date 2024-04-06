@@ -22,21 +22,14 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final BalanceRepository balanceRepository;
     private final UserCredentialsRepository userCredentialsRepository;
 
     private final UserCredentialsService userCredentialsService;
 
-    public UserServiceImpl(UserRepository userRepository, BalanceRepository balanceRepository, UserCredentialsRepository userCredentialsRepository, UserCredentialsService userCredentialsService) {
+    public UserServiceImpl(UserRepository userRepository, UserCredentialsRepository userCredentialsRepository, UserCredentialsService userCredentialsService) {
         this.userRepository = userRepository;
-        this.balanceRepository = balanceRepository;
         this.userCredentialsRepository = userCredentialsRepository;
         this.userCredentialsService = userCredentialsService;
-    }
-
-    @Override
-    public Optional<UserDto> getUserById(UUID Id) {
-        return Optional.empty();
     }
 
     @Override
@@ -50,17 +43,6 @@ public class UserServiceImpl implements UserService {
         userCredentialsRepository.save(userCredentials);
 
         return UserMapper.mapToDto(userEntity);
-    }
-
-    @Override
-    public UserDto getUserDetailsByUsername(String username) {
-        UserEntity userEntityByUsername = userRepository.getUserEntityByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
-        return UserMapper.mapToDto(userEntityByUsername);
-    }
-
-    @Override
-    public void deleteUser(UUID id) {
-        userRepository.deleteById(id);
     }
 
     private void uniqueUserValidation(UserCredentialsDto user) {

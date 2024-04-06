@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -45,32 +44,9 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-//    public void addUserDetails(UserDetails userDetails){
-//        String encodedPassword = new BCryptPasswordEncoder().encode(userDetails.getPassword());
-//        userDetails.setPassword(encodedPassword);
-//        userDetailsRepository.save(userDetails);
-//    }
-
-    //TODO - from database! Not in code
-//    @Bean
-//    public UserDetailsService userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-//        manager.createUser(User.withUsername("user")
-//                .password(bCryptPasswordEncoder.encode("userPass"))
-//                .build());
-//        return manager;
-//    }
-
-//    @Bean
-//    public DataSource dataSource() {
-//        return new EmbeddedDatabaseBuilder()
-//                .setType(EmbeddedDatabaseType.H2)
-//                .build();
-//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

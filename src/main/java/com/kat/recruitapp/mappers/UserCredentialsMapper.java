@@ -5,7 +5,6 @@ import com.kat.recruitapp.entities.UserCredentials;
 import com.kat.recruitapp.entities.UserEntity;
 import com.kat.recruitapp.repositories.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 

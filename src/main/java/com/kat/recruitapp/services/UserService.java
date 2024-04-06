@@ -8,11 +8,6 @@ import java.util.UUID;
 
 public interface UserService {
 
-    Optional<UserDto> getUserById(UUID Id);
-
     UserDto saveUser(UserCredentialsDto user);
 
-    UserDto getUserDetailsByUsername(String username);
-
-    void deleteUser(UUID id);
 }

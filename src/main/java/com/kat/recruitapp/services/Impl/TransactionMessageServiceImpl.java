@@ -1,7 +1,8 @@
-package com.kat.recruitapp.services;
+package com.kat.recruitapp.services.Impl;
 
 import com.kat.recruitapp.entities.UserEntity;
 import com.kat.recruitapp.enums.PreferredNotificationChannel;
+import com.kat.recruitapp.services.TransactionMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringSubstitutor;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class TransactionMessageServiceImpl implements TransactionMessageService{
+public class TransactionMessageServiceImpl implements TransactionMessageService {
 
     String msg = "Sending ${channel} to: ${recipient}, ${content}";
 

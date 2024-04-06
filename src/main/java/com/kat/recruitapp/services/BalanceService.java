@@ -7,7 +7,4 @@ public interface BalanceService {
 
     BalanceDto addUserBalance(PromoCodeDto code);
 
-    BalanceDto getUserBalanceByUsername(String username);
-
-    BalanceDto getUserBalanceByBalanceId(String identifier);
 }

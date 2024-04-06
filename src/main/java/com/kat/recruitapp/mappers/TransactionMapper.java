@@ -16,16 +16,4 @@ public class TransactionMapper {
 
         return transactionDto;
     }
-
-    public static TransactionEntity mapToEntity(TransactionDto transactionDto){
-        TransactionEntity transactionEntity = TransactionEntity.builder()
-                .id(transactionDto.getId())
-                .sender(transactionDto.getSender())
-                .recipient(transactionDto.getRecipient())
-                .amount(transactionDto.getAmount())
-                .transactionTime(transactionDto.getTime())
-                .build();
-
-        return transactionEntity;
-    }
 }
