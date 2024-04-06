@@ -1,7 +1,5 @@
 package com.kat.recruitapp.entities;
 
-import com.kat.recruitapp.enums.PreferredNotificationChannel;
-import com.kat.recruitapp.validators.email.OwaspEmail;
 import com.kat.recruitapp.validators.password.OwaspPassword;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,8 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user_entity")
-public class UserEntity {
+@Table(name = "user_credentials")
+public class UserCredentials {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,24 +22,21 @@ public class UserEntity {
 
     private String username;
 
-    private String phoneNumber;
+    @OwaspPassword
+    private String password;
 
-    @OwaspEmail
-    private String email;
-
-    @Enumerated(EnumType.STRING)
-    private PreferredNotificationChannel preferredNotificationChannel;
+    private UUID userEntityId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(username, that.username);
+        UserCredentials that = (UserCredentials) o;
+        return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(userEntityId, that.userEntityId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username);
+        return Objects.hash(username);
     }
 }

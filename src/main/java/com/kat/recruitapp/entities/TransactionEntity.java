@@ -1,10 +1,13 @@
 package com.kat.recruitapp.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -16,6 +19,7 @@ import java.util.UUID;
 public class TransactionEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String sender;
@@ -24,5 +28,5 @@ public class TransactionEntity {
 
     private BigDecimal amount;
 
-    private static int LIMIT = 3;
+    private LocalDateTime transactionTime;
 }

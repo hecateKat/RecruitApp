@@ -1,52 +1,85 @@
 package com.kat.recruitapp.services.Impl;
 
 import com.kat.recruitapp.dtos.BalanceDto;
-import com.kat.recruitapp.dtos.UserDto;
+import com.kat.recruitapp.dtos.PromoCodeDto;
 import com.kat.recruitapp.entities.BalanceEntity;
 import com.kat.recruitapp.entities.UserEntity;
+import com.kat.recruitapp.enums.PromoCode;
+import com.kat.recruitapp.exceptions.ExistException;
+import com.kat.recruitapp.exceptions.NotFoundException;
 import com.kat.recruitapp.mappers.BalanceMapper;
 import com.kat.recruitapp.repositories.BalanceRepository;
 import com.kat.recruitapp.repositories.UserRepository;
 import com.kat.recruitapp.services.BalanceService;
+import com.kat.recruitapp.services.UserCredentialsService;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
+
+import static com.kat.recruitapp.enums.PromoCode.*;
 
 @Service
 public class BalanceServiceImpl implements BalanceService {
 
     private final BalanceRepository balanceRepository;
-
     private final UserRepository userRepository;
 
-    public BalanceServiceImpl(BalanceRepository balanceRepository, UserRepository userRepository) {
+    private final UserCredentialsService userCredentialsService;
+
+    public BalanceServiceImpl(BalanceRepository balanceRepository, UserRepository userRepository, UserCredentialsService userCredentialsService) {
         this.balanceRepository = balanceRepository;
         this.userRepository = userRepository;
+        this.userCredentialsService = userCredentialsService;
     }
 
     @Override
-    public BalanceDto save(BalanceDto balance) {
-        BalanceEntity balanceEntity = balanceRepository.save(BalanceMapper.mapToEntity(balance));
+    public BalanceDto addUserBalance(PromoCodeDto code) {
+        String authenticatedUserUsername = userCredentialsService.getAuthenticatedCredentialUsername();
+        Optional<UserEntity> userEntity = userRepository.getUserEntityByUsername(authenticatedUserUsername);
+
+        validateBalanceForUser(userEntity.get());
+
+        BalanceEntity balanceEntity = BalanceEntity.builder()
+                .amount(mapPromotionCode(code.getCode()))
+                .balanceId(RandomString.make(10))
+                .userEntity(userEntity.get())
+                .build();
+
+        balanceRepository.save(balanceEntity);
         return BalanceMapper.mapToDto(balanceEntity);
     }
 
     @Override
-    public BalanceDto update(UUID id, BalanceDto balanceDto) {
-        Optional<BalanceEntity> optionalBalance = balanceRepository.findById(id);
-        if(optionalBalance.isPresent()){
-            BalanceEntity balanceEntity = optionalBalance.get();
-            balanceEntity.setAmount(balanceDto.getAmount());
-            BalanceEntity savedBalanceEntity = balanceRepository.save(balanceEntity);
-            return BalanceMapper.mapToDto(savedBalanceEntity);
-        }
-        return null;
+    public BalanceDto getUserBalanceByUsername(String username) {
+        UserEntity userEntity = userRepository.getUserEntityByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
+        BalanceEntity balanceEntity = balanceRepository.getUserBalanceByUsername(userEntity.getUsername()).orElseThrow(() -> new NotFoundException("Balance not found"));
+        return BalanceMapper.mapToDto(balanceEntity);
     }
 
     @Override
-    public BalanceDto getBalanceByUsername(UserDto userDto) {
-        String username = userDto.getUsername();
-        Optional<UserEntity> userOptional = Optional.of(userRepository.findUserEntityByUsername(username).get());
-        return userOptional.map(userEntity -> BalanceMapper.mapToDto(balanceRepository.findBalanceEntityByUserEntity(userEntity))).orElse(null);
+    public BalanceDto getUserBalanceByBalanceId(String balanceId) {
+        BalanceEntity balanceEntity = balanceRepository.getUserBalanceByBalanceId(balanceId).orElseThrow(() -> new NotFoundException("Balance not found"));
+        return BalanceMapper.mapToDto(balanceEntity);
+    }
+
+    private void validateBalanceForUser(UserEntity userEntity) {
+        if (balanceRepository.existsById(userEntity.getId())) {
+            throw new ExistException("Balance already exist  for that user");
+        }
+    }
+
+    private BigDecimal mapPromotionCode(String code){
+        Map<PromoCode, BigDecimal> bigDecimalValue = Map.of(
+                KOD_1, BigDecimal.valueOf(100),
+                KOD_2, BigDecimal.valueOf(200),
+                KOD_3, BigDecimal.valueOf(300),
+                KOD_4, BigDecimal.valueOf(400),
+                KOD_5, BigDecimal.valueOf(500)
+        );
+
+        return bigDecimalValue.get(PromoCode.valueOf(code));
     }
 }

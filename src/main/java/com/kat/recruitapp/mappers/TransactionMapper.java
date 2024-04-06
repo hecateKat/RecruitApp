@@ -11,6 +11,7 @@ public class TransactionMapper {
                 .sender(transactionEntity.getSender())
                 .recipient(transactionEntity.getRecipient())
                 .amount(transactionEntity.getAmount())
+                .time(transactionEntity.getTransactionTime())
                 .build();
 
         return transactionDto;
@@ -22,6 +23,7 @@ public class TransactionMapper {
                 .sender(transactionDto.getSender())
                 .recipient(transactionDto.getRecipient())
                 .amount(transactionDto.getAmount())
+                .transactionTime(transactionDto.getTime())
                 .build();
 
         return transactionEntity;

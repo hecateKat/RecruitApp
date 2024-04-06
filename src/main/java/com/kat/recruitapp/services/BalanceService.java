@@ -1,15 +1,13 @@
 package com.kat.recruitapp.services;
 
 import com.kat.recruitapp.dtos.BalanceDto;
-import com.kat.recruitapp.dtos.UserDto;
-
-import java.util.UUID;
+import com.kat.recruitapp.dtos.PromoCodeDto;
 
 public interface BalanceService {
 
-    BalanceDto save(BalanceDto balance);
+    BalanceDto addUserBalance(PromoCodeDto code);
 
-    BalanceDto update(UUID id, BalanceDto balanceDto);
+    BalanceDto getUserBalanceByUsername(String username);
 
-    BalanceDto getBalanceByUsername(UserDto userDto);
+    BalanceDto getUserBalanceByBalanceId(String identifier);
 }

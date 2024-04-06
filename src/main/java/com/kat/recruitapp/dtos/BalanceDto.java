@@ -15,6 +15,4 @@ public class BalanceDto {
     private BigDecimal amount;
 
     private String balanceId;
-
-    private UserDto userDto;
 }

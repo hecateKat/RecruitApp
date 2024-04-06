@@ -10,7 +10,6 @@ public class BalanceMapper {
                 .id(balanceEntity.getId())
                 .amount(balanceEntity.getAmount())
                 .balanceId(balanceEntity.getBalanceId())
-                .userDto(UserMapper.mapToDto(balanceEntity.getUserEntity()))
                 .build();
 
         return balanceDto;
@@ -21,7 +20,6 @@ public class BalanceMapper {
                 .id(balanceDto.getId())
                 .amount(balanceDto.getAmount())
                 .balanceId(balanceDto.getBalanceId())
-                .userEntity(UserMapper.mapToEntity(balanceDto.getUserDto()))
                 .build();
 
         return balanceEntity;

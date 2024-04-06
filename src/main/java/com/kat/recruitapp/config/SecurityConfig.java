@@ -37,7 +37,7 @@ public class SecurityConfig {
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                                .requestMatchers("/v1/user/register").permitAll()
+                                .requestMatchers("/", "/v1/user/register**").permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
         httpSecurity.authenticationManager(authenticationManager);
@@ -45,11 +45,11 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-    public void addUserDetails(UserDetails userDetails){
-        String encodedPassword = new BCryptPasswordEncoder().encode(userDetails.getPassword());
-        userDetails.setPassword(encodedPassword);
-        userDetailsRepository.save(userDetails);
-    }
+//    public void addUserDetails(UserDetails userDetails){
+//        String encodedPassword = new BCryptPasswordEncoder().encode(userDetails.getPassword());
+//        userDetails.setPassword(encodedPassword);
+//        userDetailsRepository.save(userDetails);
+//    }
 
     //TODO - from database! Not in code
 //    @Bean

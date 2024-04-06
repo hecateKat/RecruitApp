@@ -1,16 +1,17 @@
 package com.kat.recruitapp.controllers;
 
 import com.kat.recruitapp.dtos.TransactionDto;
+import com.kat.recruitapp.dtos.TransactionRequest;
 import com.kat.recruitapp.services.TransactionService;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/transaction")
 @Api(tags = "Transaction Management")
+@Slf4j
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -19,15 +20,8 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-
-    @GetMapping
-    public String emptyPage(){
-        return "aaa";
-    }
-
-
     @PostMapping
-    public TransactionDto createTransaction(){
-        return transactionService.createTransaction();
+    public TransactionDto performTransfer(@Valid @RequestBody TransactionRequest request) {
+        return transactionService.createTransaction(request);
     }
 }
